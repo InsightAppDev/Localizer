@@ -72,7 +72,7 @@ namespace Insight.Localizer.Tests
             var en = localizer.Get("en-us", "test", "Hello");
             Assert.Equal("Hi", en);
 
-            var ru = localizer.Get("ru-ru", "test", "Hello");
+            var ru = localizer.Get("test", "Hello");
             Assert.Equal("Привет", ru);
         }
     }
