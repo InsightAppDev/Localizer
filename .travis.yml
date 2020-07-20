@@ -1,0 +1,16 @@
+anguage: csharp
+solution: Insight.Localizer.sln
+mono: none
+dotnet: 3.1.101
+stages:
+ - test
+ - publish
+jobs:
+ include:
+  - stage: test
+    name: test solution
+    script: ./run-tests.sh
+  - stage: publish
+    name: publish nuget package
+    if: tag IS present
+    script: ./publish-nuget.sh "$NUGET_SOURCE" "$NUGET_KEY" "$TRAVIS_TAG"
