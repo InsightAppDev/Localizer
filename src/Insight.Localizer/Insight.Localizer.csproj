@@ -2,6 +2,12 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
+        <PackageVersion>0.1.0</PackageVersion>
+        <Title>Abstraction to localize your app from json files</Title>
+        <Copyright>Copyright © 2020 Sergey Nazarov</Copyright>
+        <PackageProjectUrl>https://github.com/InsightAppDev/Insight.Localizer</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/InsightAppDev/Insight.Localizer</RepositoryUrl>
+        <RepositoryType>Github</RepositoryType>
     </PropertyGroup>
 
     <ItemGroup>
