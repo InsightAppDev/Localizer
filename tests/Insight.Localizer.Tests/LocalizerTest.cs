@@ -10,7 +10,8 @@ namespace Insight.Localizer.Tests
 
         private static LocalizerConfiguration Configuration => new LocalizerConfiguration
         {
-            Path = "Resources"
+            Path = "Resources",
+            ReadNestedFolders = true
         };
 
         public LocalizerTest()
@@ -19,13 +20,52 @@ namespace Insight.Localizer.Tests
         }
 
         [Fact]
-        public void CtorShouldThrowEx()
+        public void Should_throw_ANE_if_configuration_at_Initialize_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => Localizer.Initialize(null));
+        }
+        
+        [Fact]
+        public void Should_throw_ANE_if_name_at_block_ctor_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Block(null));
+        }
+        
+        [Fact]
+        public void Should_throw_ANE_if_culture_at_ctor_is_null()
         {
             Assert.Throws<ArgumentNullException>(() => new Localizer(null));
         }
+        
+        [Fact]
+        public void Should_throw_ANE_if_culture_string_at_CurrentCulture_ctor_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => new CurrentCulture(null));
+        }
 
         [Fact]
-        public void ShouldReadAllFiles()
+        public void Should_throw_MissingBlockException()
+        {
+            var localizer = new Localizer(new CurrentCulture("ru-ru"));
+            Assert.Throws<MissingBlockException>(() => localizer.Get("there_is_no_block", "Hello"));
+        }
+        
+        [Fact]
+        public void Should_throw_MissingLocalizationException_if_there_is_no_culture()
+        {
+            var localizer = new Localizer(new CurrentCulture("ke-ke"));
+            Assert.Throws<MissingLocalizationException>(() => localizer.Get("messages", "Hello"));
+        }
+
+        [Fact]
+        public void Should_throw_MissingLocalizationException_if_there_is_no_key()
+        {
+            var localizer = new Localizer(new CurrentCulture("ru-ru"));
+            Assert.Throws<MissingLocalizationException>(() => localizer.Get("messages", "there_is_no_localization"));
+        }
+
+        [Fact]
+        public void Should_read_all_files()
         {
             var localizer = new Localizer(_culture);
             Assert.NotNull(localizer);
@@ -34,7 +74,7 @@ namespace Insight.Localizer.Tests
         }
 
         [Fact]
-        public void ShouldGetAvailableBlockNamesFromAllFiles()
+        public void Should_get_available_block_names_from_all_Files()
         {
             var localizer = new Localizer(_culture);
             Assert.NotNull(localizer);
@@ -50,7 +90,7 @@ namespace Insight.Localizer.Tests
         }
 
         [Fact]
-        public void ShouldReadFilesByPattern()
+        public void Should_read_files_by_pattern()
         {
             var config = Configuration;
             config.Pattern = "test";
@@ -62,7 +102,7 @@ namespace Insight.Localizer.Tests
         }
 
         [Fact]
-        public void ShouldGetValueInAllLanguages()
+        public void Should_get_value_in_all_languages()
         {
             var localizer = new Localizer(_culture);
             Assert.NotNull(localizer);
