@@ -24,19 +24,19 @@ namespace Insight.Localizer.Tests
         {
             Assert.Throws<ArgumentNullException>(() => Localizer.Initialize(null));
         }
-        
+
         [Fact]
         public void Should_throw_ANE_if_name_at_block_ctor_is_null()
         {
             Assert.Throws<ArgumentNullException>(() => new Block(null));
         }
-        
+
         [Fact]
         public void Should_throw_ANE_if_culture_at_ctor_is_null()
         {
             Assert.Throws<ArgumentNullException>(() => new Localizer(null));
         }
-        
+
         [Fact]
         public void Should_throw_ANE_if_culture_string_at_CurrentCulture_ctor_is_null()
         {
@@ -49,7 +49,7 @@ namespace Insight.Localizer.Tests
             var localizer = new Localizer(new CurrentCulture("ru-ru"));
             Assert.Throws<MissingBlockException>(() => localizer.Get("there_is_no_block", "Hello"));
         }
-        
+
         [Fact]
         public void Should_throw_MissingLocalizationException_if_there_is_no_culture()
         {
@@ -110,10 +110,10 @@ namespace Insight.Localizer.Tests
             Assert.Equal(2, localizer.Blocks.Count);
 
             var en = localizer.Get("en-us", "test", "Hello");
-            Assert.Equal("Hi", en);
-
             var ru = localizer.Get("test", "Hello");
-            Assert.Equal("Привет", ru);
+
+            Assert.Equal("Hi", en, StringComparer.InvariantCultureIgnoreCase);
+            Assert.Equal("Привет", ru, StringComparer.InvariantCultureIgnoreCase);
         }
     }
 }
