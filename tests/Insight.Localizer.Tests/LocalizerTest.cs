@@ -68,25 +68,24 @@ namespace Insight.Localizer.Tests
         public void Should_read_all_files()
         {
             var localizer = new Localizer(_culture);
-            Assert.NotNull(localizer);
-            Assert.NotEmpty(localizer.Blocks);
-            Assert.Equal(2, localizer.Blocks.Count);
+            AssertLocalizer(localizer, 3);
         }
 
         [Fact]
         public void Should_get_available_block_names_from_all_Files()
         {
             var localizer = new Localizer(_culture);
-            Assert.NotNull(localizer);
-            Assert.NotEmpty(localizer.Blocks);
-            Assert.Equal(2, localizer.Blocks.Count);
+            AssertLocalizer(localizer, 3);
 
             var names = localizer.AvailableBlockNames;
             Assert.NotNull(names);
             Assert.NotEmpty(names);
-            Assert.Equal(2, names.Count);
-            Assert.NotNull(names.FirstOrDefault(x => x.Equals("test")));
-            Assert.NotNull(names.FirstOrDefault(x => x.Equals("messages")));
+            Assert.Equal(3, names.Count);
+            Assert.NotNull(names.FirstOrDefault(x => x.Equals("test", StringComparison.InvariantCultureIgnoreCase)));
+            Assert.NotNull(names.FirstOrDefault(x =>
+                x.Equals("messages", StringComparison.InvariantCultureIgnoreCase)));
+            Assert.NotNull(names.FirstOrDefault(x =>
+                x.Equals("language", StringComparison.InvariantCultureIgnoreCase)));
         }
 
         [Fact]
@@ -96,24 +95,40 @@ namespace Insight.Localizer.Tests
             config.Pattern = "test";
             Localizer.Initialize(config);
             var localizer = new Localizer(_culture);
-            Assert.NotNull(localizer);
-            Assert.NotEmpty(localizer.Blocks);
-            Assert.Single(localizer.Blocks);
+            AssertLocalizer(localizer, 1);
         }
 
         [Fact]
         public void Should_get_value_in_all_languages()
         {
             var localizer = new Localizer(_culture);
-            Assert.NotNull(localizer);
-            Assert.NotEmpty(localizer.Blocks);
-            Assert.Equal(2, localizer.Blocks.Count);
+            AssertLocalizer(localizer, 3);
 
             var en = localizer.Get("en-us", "test", "Hello");
             var ru = localizer.Get("test", "Hello");
 
             Assert.Equal("Hi", en, StringComparer.InvariantCultureIgnoreCase);
             Assert.Equal("Привет", ru, StringComparer.InvariantCultureIgnoreCase);
+        }
+
+        [Fact]
+        public void Should_get_any_value()
+        {
+            var localizer = new Localizer(_culture);
+            AssertLocalizer(localizer, 3);
+
+            var russianLanguage = localizer.GetAny("language", "Russian");
+            var englishLanguage = localizer.GetAny("language", "English");
+
+            Assert.Equal("Русский", russianLanguage, StringComparer.InvariantCultureIgnoreCase);
+            Assert.Equal("English", englishLanguage, StringComparer.InvariantCultureIgnoreCase);
+        }
+
+        private void AssertLocalizer(ILocalizer localizer, int expectedBlocksCount)
+        {
+            Assert.NotNull(localizer);
+            Assert.NotEmpty(localizer.Blocks);
+            Assert.Equal(expectedBlocksCount, localizer.Blocks.Count);
         }
     }
 }

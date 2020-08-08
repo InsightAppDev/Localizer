@@ -11,7 +11,7 @@ namespace Insight.Localizer
 
         private Block()
         {
-            _localizations = new Dictionary<string, IDictionary<string, string>>();
+            _localizations = new Dictionary<string, IDictionary<string, string>>(StringComparer.InvariantCultureIgnoreCase);
         }
 
         internal Block(string name) : this()

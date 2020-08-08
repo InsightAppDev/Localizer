@@ -14,4 +14,9 @@ namespace Insight.Localizer
 
         public string Value { get; }
     }
+
+    public static class AnyCulture
+    {
+        public static string Value = "any";
+    }
 }

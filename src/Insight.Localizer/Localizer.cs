@@ -24,7 +24,7 @@ namespace Insight.Localizer
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
 
-            _blocks = new Dictionary<string, Block>();
+            _blocks = new Dictionary<string, Block>(StringComparer.InvariantCultureIgnoreCase);
             Build(configuration);
         }
 
@@ -42,16 +42,21 @@ namespace Insight.Localizer
 
         public string Get(string block, string key)
         {
-            return this[block.ToLower()].Get(_currentCulture.Value.ToLower(), key.ToLower());
+            return this[block].Get(_currentCulture.Value, key);
+        }
+
+        public string GetAny(string block, string key)
+        {
+            return this[block].Get(AnyCulture.Value, key);
         }
 
         public string Get(string culture, string block, string key)
         {
-            return this[block.ToLower()].Get(culture.ToLower(), key.ToLower());
+            return this[block].Get(culture, key);
         }
 
         private Block this[string name] =>
-            Blocks.TryGetValue(name.ToLower(), out var value)
+            Blocks.TryGetValue(name, out var value)
                 ? value
                 : throw new MissingBlockException($"Block `{name}` missing");
 
@@ -67,26 +72,20 @@ namespace Insight.Localizer
             var files = Directory.GetFiles(configuration.Path, pattern, searchOption);
             foreach (var file in files)
             {
-                var localeRegex = new Regex("^(.*).([A-Za-z]{2}-[A-Za-z]{2}).json$");
+                var localeRegex = new Regex(@"^([A-Za-z]{1,})\.([A-Za-z]{2}-[A-Za-z]{2}|any)\.json$");
                 var filename = Path.GetFileName(file);
                 var match = localeRegex.Match(filename);
                 if (match.Success)
                 {
-                    var blockName = match.Groups[1].Value.ToLower();
-                    var cultureString = match.Groups[^1]?.Value.ToLower();
-
-                    if (string.IsNullOrWhiteSpace(blockName))
-                        throw new ArgumentNullException(nameof(blockName));
-
-                    if (string.IsNullOrWhiteSpace(cultureString))
-                        throw new ArgumentNullException(nameof(cultureString));
+                    var blockName = match.Groups[1].Value;
+                    var cultureString = match.Groups[^1]?.Value;
 
                     var json = File.ReadAllText(file);
                     var jObject = JObject.Parse(json);
-                    var blockContent = new Dictionary<string, string>();
+                    var blockContent = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
                     foreach (var (key, value) in jObject)
-                        blockContent.Add(key.ToLower(), value.ToString());
+                        blockContent.Add(key, value.ToString());
 
                     if (!_blocks.ContainsKey(blockName))
                     {
