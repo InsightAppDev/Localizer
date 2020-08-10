@@ -124,6 +124,26 @@ namespace Insight.Localizer.Tests
             Assert.Equal("English", englishLanguage, StringComparer.InvariantCultureIgnoreCase);
         }
 
+        [Fact]
+        public void Should_change_current_culture()
+        {
+            var localizer = new Localizer(_culture);
+            AssertLocalizer(localizer, 3);
+
+            Assert.Equal("ru-ru", localizer.Culture.Value, StringComparer.InvariantCultureIgnoreCase);
+            localizer.SetCulture(new CurrentCulture("en-us"));
+            Assert.Equal("en-us", localizer.Culture.Value, StringComparer.InvariantCultureIgnoreCase);
+        }
+
+        [Fact]
+        public void Should_throw_ANE_on_set_culture_if_culture_is_null()
+        {
+            var localizer = new Localizer(_culture);
+            AssertLocalizer(localizer, 3);
+
+            Assert.Throws<ArgumentNullException>(() => localizer.SetCulture(null));
+        }
+
         private void AssertLocalizer(ILocalizer localizer, int expectedBlocksCount)
         {
             Assert.NotNull(localizer);

@@ -11,12 +11,14 @@ namespace Insight.Localizer
     {
         private static IDictionary<string, Block> _blocks;
 
-        private readonly ICurrentCulture _currentCulture;
+        private ICurrentCulture _currentCulture;
 
         public IReadOnlyCollection<string> AvailableBlockNames => Blocks
             .Select(x => x.Key)
             .ToList();
 
+        public ICurrentCulture Culture => _currentCulture;
+        
         public IDictionary<string, Block> Blocks => _blocks;
 
         public static void Initialize(LocalizerConfiguration configuration)
@@ -53,6 +55,14 @@ namespace Insight.Localizer
         public string Get(string culture, string block, string key)
         {
             return this[block].Get(culture, key);
+        }
+
+        public void SetCulture(CurrentCulture culture)
+        {
+            if(culture == null)
+                throw new ArgumentNullException(nameof(culture));
+
+            _currentCulture = culture;
         }
 
         private Block this[string name] =>

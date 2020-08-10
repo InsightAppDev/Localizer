@@ -4,6 +4,8 @@ namespace Insight.Localizer
 {
     public interface ILocalizer
     {
+        ICurrentCulture Culture { get; }
+        
         /// <summary>
         /// Loaded blocks
         /// </summary>
@@ -38,5 +40,11 @@ namespace Insight.Localizer
         /// <param name="key">Key</param>
         /// <returns></returns>
         string Get(string culture, string block, string key);
+
+        /// <summary>
+        /// Change current culture
+        /// </summary>
+        /// <param name="culture">Culture</param>
+        void SetCulture(CurrentCulture culture);
     }
 }
