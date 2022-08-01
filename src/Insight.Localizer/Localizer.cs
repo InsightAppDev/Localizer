@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using Newtonsoft.Json.Linq;
 
 namespace Insight.Localizer
@@ -11,14 +12,28 @@ namespace Insight.Localizer
     {
         private static IDictionary<string, Block> _blocks;
 
-        private ICurrentCulture _currentCulture;
+        private static readonly AsyncLocal<string?> _currentCulture = new AsyncLocal<string?>();
 
-        public IReadOnlyCollection<string> AvailableBlockNames => Blocks
-            .Select(x => x.Key)
-            .ToList();
+        public static string? CurrentCulture
+        {
+            get => _currentCulture.Value;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
 
-        public ICurrentCulture Culture => _currentCulture;
-        
+                _currentCulture.Value = value.ToLower();
+            }
+        }
+
+        public IReadOnlyCollection<string> AvailableBlockNames => new Lazy<IReadOnlyCollection<string>>(
+                () => Blocks
+                    .Select(x => x.Key)
+                    .ToList())
+            .Value;
+
         public IDictionary<string, Block> Blocks => _blocks;
 
         public static void Initialize(LocalizerConfiguration configuration)
@@ -30,18 +45,6 @@ namespace Insight.Localizer
             Build(configuration);
         }
 
-        /// <summary>
-        /// Ctor with CurrentCulture
-        /// </summary>
-        /// <param name="currentCulture"><see cref="ICurrentCulture"/></param>
-        public Localizer(ICurrentCulture currentCulture)
-        {
-            if (currentCulture == null)
-                throw new ArgumentNullException(nameof(currentCulture));
-
-            _currentCulture = currentCulture;
-        }
-
         public string Get(string block, string key)
         {
             return this[block].Get(_currentCulture.Value, key);
@@ -49,20 +52,12 @@ namespace Insight.Localizer
 
         public string GetAny(string block, string key)
         {
-            return this[block].Get(AnyCulture.Value, key);
+            return this[block].Get(LocalizerConstants.AnyCultureKey, key);
         }
 
         public string Get(string culture, string block, string key)
         {
             return this[block].Get(culture, key);
-        }
-
-        public void SetCulture(CurrentCulture culture)
-        {
-            if(culture == null)
-                throw new ArgumentNullException(nameof(culture));
-
-            _currentCulture = culture;
         }
 
         private Block this[string name] =>

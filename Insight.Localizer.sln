@@ -4,6 +4,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Insight.Localizer", "src\In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Insight.Localizer.Tests", "tests\Insight.Localizer.Tests\Insight.Localizer.Tests.csproj", "{C8EDC5BA-AA36-44C6-A4D5-E45695EF5867}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{7C43D58B-6E27-40AC-B59E-D9FE1AB66DB3}"
+	ProjectSection(SolutionItems) = preProject
+		publish-nuget.sh = publish-nuget.sh
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+		.github\workflows\publish.yml = .github\workflows\publish.yml
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -6,8 +6,6 @@ namespace Insight.Localizer.Tests
 {
     public sealed class LocalizerTest
     {
-        private readonly ICurrentCulture _culture = new CurrentCulture("ru-ru");
-
         private static LocalizerConfiguration Configuration => new LocalizerConfiguration
         {
             Path = "Resources",
@@ -17,6 +15,7 @@ namespace Insight.Localizer.Tests
         public LocalizerTest()
         {
             Localizer.Initialize(Configuration);
+            Localizer.CurrentCulture = "ru-ru";
         }
 
         [Fact]
@@ -30,51 +29,40 @@ namespace Insight.Localizer.Tests
         {
             Assert.Throws<ArgumentNullException>(() => new Block(null));
         }
-
-        [Fact]
-        public void Should_throw_ANE_if_culture_at_ctor_is_null()
-        {
-            Assert.Throws<ArgumentNullException>(() => new Localizer(null));
-        }
-
-        [Fact]
-        public void Should_throw_ANE_if_culture_string_at_CurrentCulture_ctor_is_null()
-        {
-            Assert.Throws<ArgumentNullException>(() => new CurrentCulture(null));
-        }
-
+        
         [Fact]
         public void Should_throw_MissingBlockException()
         {
-            var localizer = new Localizer(new CurrentCulture("ru-ru"));
+            var localizer = new Localizer();
             Assert.Throws<MissingBlockException>(() => localizer.Get("there_is_no_block", "Hello"));
         }
 
         [Fact]
         public void Should_throw_MissingLocalizationException_if_there_is_no_culture()
         {
-            var localizer = new Localizer(new CurrentCulture("ke-ke"));
+            Localizer.CurrentCulture = "ke-ke";
+            var localizer = new Localizer();
             Assert.Throws<MissingLocalizationException>(() => localizer.Get("messages", "Hello"));
         }
 
         [Fact]
         public void Should_throw_MissingLocalizationException_if_there_is_no_key()
         {
-            var localizer = new Localizer(new CurrentCulture("ru-ru"));
+            var localizer = new Localizer();
             Assert.Throws<MissingLocalizationException>(() => localizer.Get("messages", "there_is_no_localization"));
         }
 
         [Fact]
         public void Should_read_all_files()
         {
-            var localizer = new Localizer(_culture);
+            var localizer = new Localizer();
             AssertLocalizer(localizer, 3);
         }
 
         [Fact]
         public void Should_get_available_block_names_from_all_Files()
         {
-            var localizer = new Localizer(_culture);
+            var localizer = new Localizer();
             AssertLocalizer(localizer, 3);
 
             var names = localizer.AvailableBlockNames;
@@ -94,14 +82,14 @@ namespace Insight.Localizer.Tests
             var config = Configuration;
             config.Pattern = "test";
             Localizer.Initialize(config);
-            var localizer = new Localizer(_culture);
+            var localizer = new Localizer();
             AssertLocalizer(localizer, 1);
         }
 
         [Fact]
         public void Should_get_value_in_all_languages()
         {
-            var localizer = new Localizer(_culture);
+            var localizer = new Localizer();
             AssertLocalizer(localizer, 3);
 
             var en = localizer.Get("en-us", "test", "Hello");
@@ -114,7 +102,7 @@ namespace Insight.Localizer.Tests
         [Fact]
         public void Should_get_any_value()
         {
-            var localizer = new Localizer(_culture);
+            var localizer = new Localizer();
             AssertLocalizer(localizer, 3);
 
             var russianLanguage = localizer.GetAny("language", "Russian");
@@ -127,21 +115,21 @@ namespace Insight.Localizer.Tests
         [Fact]
         public void Should_change_current_culture()
         {
-            var localizer = new Localizer(_culture);
+            var localizer = new Localizer();
             AssertLocalizer(localizer, 3);
 
-            Assert.Equal("ru-ru", localizer.Culture.Value, StringComparer.InvariantCultureIgnoreCase);
-            localizer.SetCulture(new CurrentCulture("en-us"));
-            Assert.Equal("en-us", localizer.Culture.Value, StringComparer.InvariantCultureIgnoreCase);
+            Assert.Equal("ru-ru", Localizer.CurrentCulture, StringComparer.InvariantCultureIgnoreCase);
+            Localizer.CurrentCulture = "en-us";
+            Assert.Equal("en-us", Localizer.CurrentCulture, StringComparer.InvariantCultureIgnoreCase);
         }
 
         [Fact]
         public void Should_throw_ANE_on_set_culture_if_culture_is_null()
         {
-            var localizer = new Localizer(_culture);
+            var localizer = new Localizer();
             AssertLocalizer(localizer, 3);
 
-            Assert.Throws<ArgumentNullException>(() => localizer.SetCulture(null));
+            Assert.Throws<ArgumentNullException>(() => Localizer.CurrentCulture = null);
         }
 
         private void AssertLocalizer(ILocalizer localizer, int expectedBlocksCount)
