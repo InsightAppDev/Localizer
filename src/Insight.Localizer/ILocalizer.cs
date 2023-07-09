@@ -24,7 +24,6 @@ namespace Insight.Localizer
         /// </summary>
         /// <param name="block">Block name</param>
         /// <param name="key">Key</param>
-        /// <returns></returns>
         string Get(string block, string key);
         
         /// <summary>
