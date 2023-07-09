@@ -77,7 +77,7 @@ namespace Insight.Localizer
             var files = Directory.GetFiles(configuration.Path, pattern, searchOption);
             foreach (var file in files)
             {
-                var localeRegex = new Regex(@"^([A-Za-z]{1,})\.([A-Za-z]{2}-[A-Za-z]{2}|any)\.json$");
+                var localeRegex = new Regex(@"^(.{1,})\.(.{2,})\.json$");
                 var filename = Path.GetFileName(file);
                 var match = localeRegex.Match(filename);
                 if (match.Success)
