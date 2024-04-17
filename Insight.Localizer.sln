@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Insight.Localizer.Extensions", "src\Insight.Localizer.Extensions\Insight.Localizer.Extensions.csproj", "{91FBA765-5291-4A11-9A55-7E4B932E3F7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,5 +29,9 @@ Global
 		{C8EDC5BA-AA36-44C6-A4D5-E45695EF5867}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8EDC5BA-AA36-44C6-A4D5-E45695EF5867}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8EDC5BA-AA36-44C6-A4D5-E45695EF5867}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91FBA765-5291-4A11-9A55-7E4B932E3F7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91FBA765-5291-4A11-9A55-7E4B932E3F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91FBA765-5291-4A11-9A55-7E4B932E3F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91FBA765-5291-4A11-9A55-7E4B932E3F7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

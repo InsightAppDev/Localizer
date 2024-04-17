@@ -8,8 +8,10 @@ using Newtonsoft.Json.Linq;
 
 namespace Insight.Localizer
 {
-    public sealed class Localizer : ILocalizer
+    public class Localizer : ILocalizer
     {
+        private static object _syncRoot = new object();
+
         private static IDictionary<string, Block> _blocks;
 
         private static readonly AsyncLocal<string?> _currentCulture = new AsyncLocal<string?>();
@@ -36,13 +38,39 @@ namespace Insight.Localizer
 
         public IDictionary<string, Block> Blocks => _blocks;
 
-        public static void Initialize(LocalizerConfiguration configuration)
-        {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
 
-            _blocks = new Dictionary<string, Block>(StringComparer.InvariantCultureIgnoreCase);
-            Build(configuration);
+        public Localizer()
+        {
+        }
+
+        public Localizer(ILocalizerCulture culture)
+        {
+        }
+
+        public static void Initialize(LocalizerOptions options)
+        {
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
+
+            if (_blocks == null)
+            {
+                lock (_syncRoot)
+                {
+                    if (_blocks != null)
+                        return;
+
+                    _blocks = new Dictionary<string, Block>(StringComparer.OrdinalIgnoreCase);
+                    Build(options);
+                }
+            }
+        }
+
+        public static void Clear()
+        {
+            lock (_syncRoot)
+            {
+                _blocks = null;
+            }
         }
 
         public string Get(string block, string key)
@@ -65,16 +93,16 @@ namespace Insight.Localizer
                 ? value
                 : throw new MissingBlockException($"Block `{name}` missing");
 
-        private static void Build(LocalizerConfiguration configuration)
+        private static void Build(LocalizerOptions options)
         {
-            var pattern = string.IsNullOrWhiteSpace(configuration.Pattern)
+            var pattern = string.IsNullOrWhiteSpace(options.Pattern)
                 ? "*.json"
-                : $"{configuration.Pattern}.*.json";
-            var searchOption = configuration.ReadNestedFolders
+                : $"{options.Pattern}.*.json";
+            var searchOption = options.ReadNestedFolders
                 ? SearchOption.AllDirectories
                 : SearchOption.TopDirectoryOnly;
 
-            var files = Directory.GetFiles(configuration.Path, pattern, searchOption);
+            var files = Directory.GetFiles(options.Path, pattern, searchOption);
             foreach (var file in files)
             {
                 var localeRegex = new Regex(@"^(.{1,})\.(.{2,})\.json$");
@@ -87,7 +115,7 @@ namespace Insight.Localizer
 
                     var json = File.ReadAllText(file);
                     var jObject = JObject.Parse(json);
-                    var blockContent = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+                    var blockContent = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
                     foreach (var (key, value) in jObject)
                         blockContent.Add(key, value.ToString());

@@ -1,6 +1,6 @@
 namespace Insight.Localizer
 {
-    public sealed class LocalizerConfiguration
+    public sealed class LocalizerOptions
     {
         public string Path { get; set; }
 

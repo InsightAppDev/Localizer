@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <Title>Insight.Localizer's extensions</Title>
+        <Copyright>Copyright © 2023 Sergey Nazarov</Copyright>
+        <PackageProjectUrl>https://github.com/nazarovsa/Insight.Localizer</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/nazarovsa/Insight.Localizer</RepositoryUrl>
+        <RepositoryType>Github</RepositoryType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>Insight.Localizer.Tests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Insight.Localizer\Insight.Localizer.csproj" />
+    </ItemGroup>
+
+</Project>

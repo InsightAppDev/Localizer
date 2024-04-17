@@ -8,7 +8,7 @@ namespace Insight.Localizer
         /// Curent culture of the localizer.
         /// </summary>
         public static string? CurrentCulture { get; set; }
-        
+
         /// <summary>
         /// Loaded blocks
         /// </summary>
@@ -25,7 +25,7 @@ namespace Insight.Localizer
         /// <param name="block">Block name</param>
         /// <param name="key">Key</param>
         string Get(string block, string key);
-        
+
         /// <summary>
         /// Get value by block-key for any culture
         /// </summary>
