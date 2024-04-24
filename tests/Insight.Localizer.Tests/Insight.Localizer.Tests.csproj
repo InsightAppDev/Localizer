@@ -19,27 +19,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Resources\test.en-us.json">
+      <None Remove="Resources\**\*.json" />
+      <Content Include="Resources\**\*.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\messages.ru-ru.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\test.ru-ru.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\language.any.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="Resources\GenericLocalizerTests.ru-ru.json" />
-      <Content Include="Resources\GenericLocalizerTests.ru-ru.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Update="Resources\LocalizierExtensionsTests.ru-ru.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
 

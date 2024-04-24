@@ -16,6 +16,9 @@ namespace Insight.Localizer
 
         private static readonly AsyncLocal<string?> _currentCulture = new AsyncLocal<string?>();
 
+        private static readonly Regex OneFilePerLanguageNameRegex =
+            new Regex(@"^(.{1,})\.(.{2,})\.json$", RegexOptions.Compiled);
+
         public static string? CurrentCulture
         {
             get => _currentCulture.Value;
@@ -95,39 +98,81 @@ namespace Insight.Localizer
 
         private static void Build(LocalizerOptions options)
         {
-            var pattern = string.IsNullOrWhiteSpace(options.Pattern)
-                ? "*.json"
-                : $"{options.Pattern}.*.json";
+            if (string.IsNullOrWhiteSpace(options.FileEndsWith))
+            {
+                throw new InvalidOperationException($"{nameof(LocalizerOptions.FileEndsWith)} should be specified");
+            }
+
             var searchOption = options.ReadNestedFolders
                 ? SearchOption.AllDirectories
                 : SearchOption.TopDirectoryOnly;
 
-            var files = Directory.GetFiles(options.Path, pattern, searchOption);
+            var files = Directory.GetFiles(options.Path, "*", searchOption)
+                .Where(x => x.EndsWith(options.FileEndsWith, StringComparison.OrdinalIgnoreCase));
+
             foreach (var file in files)
             {
-                var localeRegex = new Regex(@"^(.{1,})\.(.{2,})\.json$");
-                var filename = Path.GetFileName(file);
-                var match = localeRegex.Match(filename);
-                if (match.Success)
+                if (options.OneLanguageInFile)
                 {
-                    var blockName = match.Groups[1].Value;
-                    var cultureString = match.Groups[^1]?.Value;
-
-                    var json = File.ReadAllText(file);
-                    var jObject = JObject.Parse(json);
-                    var blockContent = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-
-                    foreach (var (key, value) in jObject)
-                        blockContent.Add(key, value.ToString());
-
-                    if (!_blocks.ContainsKey(blockName))
-                    {
-                        var block = new Block(blockName);
-                        _blocks.Add(block.Name, block);
-                    }
-
-                    _blocks[blockName].Add(cultureString, blockContent);
+                    InitializeForOneLanguageInFile(file);
+                    continue;
                 }
+
+                InitializeForAllLanguagesInOneFile(file, options.FileEndsWith);
+            }
+        }
+
+        private static void InitializeForAllLanguagesInOneFile(string file, string fileEndsWith)
+        {
+            var filename = Path.GetFileName(file);
+            var blockName = filename.Replace(fileEndsWith, string.Empty);
+
+            var json = File.ReadAllText(file);
+            var jObject = JObject.Parse(json);
+
+            foreach (var (culture, blockJToken) in jObject)
+            {
+                var blockContent = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                var blockJObject = blockJToken as JObject;
+                foreach (var (key, value) in blockJObject)
+                {
+                    blockContent.Add(key, value.ToString());
+                }
+
+                if (!_blocks.ContainsKey(blockName))
+                {
+                    var block = new Block(blockName);
+                    _blocks.Add(block.Name, block);
+                }
+
+                _blocks[blockName].Add(culture, blockContent);
+            }
+        }
+
+        private static void InitializeForOneLanguageInFile(string file)
+        {
+            var localeRegex = OneFilePerLanguageNameRegex;
+            var filename = Path.GetFileName(file);
+            var match = localeRegex.Match(filename);
+            if (match.Success)
+            {
+                var blockName = match.Groups[1].Value;
+                var cultureString = match.Groups[^1]?.Value;
+
+                var json = File.ReadAllText(file);
+                var jObject = JObject.Parse(json);
+                var blockContent = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+                foreach (var (key, value) in jObject)
+                    blockContent.Add(key, value.ToString());
+
+                if (!_blocks.ContainsKey(blockName))
+                {
+                    var block = new Block(blockName);
+                    _blocks.Add(block.Name, block);
+                }
+
+                _blocks[blockName].Add(cultureString, blockContent);
             }
         }
     }

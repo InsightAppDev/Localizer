@@ -1,43 +1,50 @@
 using System;
+using System.IO;
 using System.Linq;
+using Microsoft.Extensions.Options;
 using Xunit;
 
 namespace Insight.Localizer.Tests
 {
-    public sealed class GenericLocalizerTests
+    [Collection("LocalizerTests")]
+    public sealed class LocalizerMultipleLanguagesInFileTests
     {
-        private readonly Localizer<GenericLocalizerTests> _localizer;
-
-        private static LocalizerOptions Options => new LocalizerOptions
+        private static LocalizerOptions _options = new()
         {
-            Path = "Resources",
+            Path = "Resources" + Path.DirectorySeparatorChar + "MultipleLanguagesInFile",
+            OneLanguageInFile = false,
             ReadNestedFolders = true
         };
 
-        public GenericLocalizerTests()
+        public LocalizerMultipleLanguagesInFileTests()
         {
-            Localizer.Initialize(Options);
-            Localizer.CurrentCulture = "ru-ru";
-            _localizer = new Localizer<GenericLocalizerTests>();
+            Localizer.Initialize(_options);
+            Localizer.CurrentCulture = "ru";
         }
 
         [Fact]
-        public void Get_returns_value_based_on_generic_argument_name()
+        public void Ctor_initializes_block_test_with_two_cultures_and_hello_key_from_single_file()
         {
-            var value = _localizer.Get("test");
-            Assert.Equal("Hello!", value);
+            var localizer = new Localizer();
+
+            Assert.Equal(1, localizer.AvailableBlockNames.Count);
+            Assert.Equal("test", localizer.AvailableBlockNames.First(), StringComparer.OrdinalIgnoreCase);
+            Assert.Equal("Привет", localizer.GetByCulture("ru", "test", "Hello"), StringComparer.OrdinalIgnoreCase);
+            Assert.Equal("Hi", localizer.GetByCulture("en", "test", "Hello"), StringComparer.OrdinalIgnoreCase);
         }
     }
 
-    public sealed class LocalizerTest
+    [Collection("LocalizerTests")]
+    public sealed class LocalizerOneLanguageInFileTests
     {
-        private static LocalizerOptions Options => new LocalizerOptions
+        private static readonly LocalizerOptions Options = new()
         {
-            Path = "Resources",
+            Path = "Resources" + Path.DirectorySeparatorChar + "OneLanguageInFile",
+            FileEndsWith = ".json",
             ReadNestedFolders = true
         };
 
-        public LocalizerTest()
+        public LocalizerOneLanguageInFileTests()
         {
             Localizer.Initialize(Options);
             Localizer.CurrentCulture = "ru-ru";
@@ -54,7 +61,7 @@ namespace Insight.Localizer.Tests
         {
             Assert.Throws<ArgumentNullException>(() => new Block(null));
         }
-        
+
         [Fact]
         public void Should_throw_MissingBlockException()
         {
