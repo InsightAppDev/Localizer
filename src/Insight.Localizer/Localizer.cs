@@ -83,7 +83,7 @@ namespace Insight.Localizer
             return this[block].Get(LocalizerConstants.AnyCultureKey, key);
         }
 
-        public string Get(string culture, string block, string key)
+        public string GetByCulture(string culture, string block, string key)
         {
             return this[block].Get(culture, key);
         }

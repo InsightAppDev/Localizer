@@ -107,7 +107,7 @@ namespace Insight.Localizer.Tests
             var localizer = new Localizer();
             AssertLocalizer(localizer, 4);
 
-            var en = localizer.Get("en-us", "test", "Hello");
+            var en = localizer.GetByCulture("en-us", "test", "Hello");
             var ru = localizer.Get("test", "Hello");
 
             Assert.Equal("Hi", en, StringComparer.OrdinalIgnoreCase);

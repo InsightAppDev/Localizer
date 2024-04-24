@@ -41,6 +41,6 @@ namespace Insight.Localizer
         /// <param name="block">Block name</param>
         /// <param name="key">Key</param>
         /// <returns></returns>
-        string Get(string culture, string block, string key);
+        string GetByCulture(string culture, string block, string key);
     }
 }
