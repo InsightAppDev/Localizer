@@ -17,7 +17,7 @@ namespace Insight.Localizer
         private static readonly AsyncLocal<string?> _currentCulture = new AsyncLocal<string?>();
 
         private static readonly Regex OneFilePerLanguageNameRegex =
-            new Regex(@"^(.{1,})\.(.{2,})\.json$", RegexOptions.Compiled);
+            new Regex(@"^(.{1,})\.(.{2,})$", RegexOptions.Compiled);
 
         public static string? CurrentCulture
         {
@@ -114,7 +114,7 @@ namespace Insight.Localizer
             {
                 if (options.OneLanguageInFile)
                 {
-                    InitializeForOneLanguageInFile(file);
+                    InitializeForOneLanguageInFile(file, options.FileEndsWith);
                     continue;
                 }
 
@@ -149,10 +149,11 @@ namespace Insight.Localizer
             }
         }
 
-        private static void InitializeForOneLanguageInFile(string file)
+        private static void InitializeForOneLanguageInFile(string file, string fileEndsWith)
         {
             var localeRegex = OneFilePerLanguageNameRegex;
-            var filename = Path.GetFileName(file);
+            var filename = Path.GetFileName(file)
+                .Replace(fileEndsWith, string.Empty, StringComparison.OrdinalIgnoreCase);
             var match = localeRegex.Match(filename);
             if (match.Success)
             {
