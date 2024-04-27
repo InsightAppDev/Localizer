@@ -1,7 +1,18 @@
+using Insight.Localizer.Registries;
+
 namespace Insight.Localizer
 {
     public class Localizer<T> : Localizer, ILocalizer<T> where T : class
     {
+        public Localizer(ILocalizerRegistry registry) : base(registry)
+        {
+        }
+
+        public Localizer(ILocalizerRegistry registry, ILocalizerCulture localizerCulture) : base(registry,
+            localizerCulture)
+        {
+        }
+
         public string Get(string key)
         {
             var block = GetBlockName();

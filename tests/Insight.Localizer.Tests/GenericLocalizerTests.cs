@@ -1,24 +1,27 @@
+using Insight.Localizer.Providers.Files.RawFiles;
+using Insight.Localizer.Registries;
 using Xunit;
 
 namespace Insight.Localizer.Tests;
 
-[Collection("LocalizerTests")]
 public sealed class GenericLocalizerTests
 {
     private readonly Localizer<GenericLocalizerTests> _localizer;
 
-    private static LocalizerOptions Options => new()
+    private static readonly RawFilesBlocksProviderOptions Options = new()
     {
         Path = "Resources",
-        FileEndsWith = ".json",
         ReadNestedFolders = true
     };
 
     public GenericLocalizerTests()
     {
-        Localizer.Initialize(Options);
-        Localizer.CurrentCulture = "ru-ru";
-        _localizer = new Localizer<GenericLocalizerTests>();
+        var provider = new RawFilesBlocksProvider(Options);
+        var registry = new LocalizerRegistry(provider);
+        registry.Initialize().GetAwaiter().GetResult();
+
+        _localizer = new Localizer<GenericLocalizerTests>(registry);
+        _localizer.CurrentCulture = new LocalizerCulture("ru-ru");
     }
 
     [Fact]

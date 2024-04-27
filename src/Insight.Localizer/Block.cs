@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Insight.Localizer
 {
     public sealed class Block
     {
         public string Name { get; }
+
+        public IReadOnlyCollection<string> AvailableCultures =>
+            new Lazy<IReadOnlyCollection<string>>(() => _localizations.Keys.ToList().AsReadOnly()).Value;
 
         private readonly IDictionary<string, IDictionary<string, string>> _localizations;
 

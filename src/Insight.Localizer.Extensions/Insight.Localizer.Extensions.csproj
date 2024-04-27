@@ -2,11 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
-        <Title>Insight.Localizer's extensions</Title>
-        <Copyright>Copyright © 2023 Sergey Nazarov</Copyright>
-        <PackageProjectUrl>https://github.com/nazarovsa/Insight.Localizer</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/nazarovsa/Insight.Localizer</RepositoryUrl>
-        <RepositoryType>Github</RepositoryType>
     </PropertyGroup>
 
     <ItemGroup>

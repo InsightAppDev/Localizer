@@ -1,29 +1,11 @@
 using System;
-using System.Threading;
-using System.Threading.Tasks;
+using Insight.Localizer.Providers;
+using Insight.Localizer.Registries;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 
 namespace Insight.Localizer.Extensions
 {
-    internal class LocalizerInitializerBackgroundService : BackgroundService
-    {
-        private readonly LocalizerOptions _options;
-
-        public LocalizerInitializerBackgroundService(IOptions<LocalizerOptions> options)
-        {
-            _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
-        }
-
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            Localizer.Initialize(_options);
-            return Task.CompletedTask;
-        }
-    }
-
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddLocalizer(this IServiceCollection services)
@@ -33,9 +15,23 @@ namespace Insight.Localizer.Extensions
                 throw new ArgumentNullException(nameof(services));
             }
 
-            services.TryAddSingleton<ILocalizer, Localizer>();
+            services.TryAddSingleton<ILocalizerRegistry, LocalizerRegistry>();
+            services.TryAddScoped<ILocalizer, Localizer>();
             services.AddTransient(typeof(ILocalizer<>), typeof(Localizer<>));
-            services.AddHostedService<LocalizerInitializerBackgroundService>();
+            services.AddHostedService<RegistryInitializerBackgroundService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddLocalizerProvider<T>(this IServiceCollection services)
+            where T : class, IBlocksProvider
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
+            services.AddSingleton<IBlocksProvider, T>();
 
             return services;
         }

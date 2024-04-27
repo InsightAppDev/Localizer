@@ -1,25 +1,18 @@
 using System.Collections.Generic;
 
-namespace Insight.Localizer
+namespace Insight.Localizer.Registries
 {
-    public interface ILocalizer
+    public interface ILocalizerRegistry
     {
         /// <summary>
-        /// Curent culture of the localizer.
+        /// Loaded blocks
         /// </summary>
-        public ILocalizerCulture? CurrentCulture { get; set; }
+        IReadOnlyDictionary<string, Block> Blocks { get; }
 
         /// <summary>
         /// Available block names
         /// </summary>
         IReadOnlyCollection<string> AvailableBlockNames { get; }
-
-        /// <summary>
-        /// Get value by block-key and injected culture
-        /// </summary>
-        /// <param name="block">Block name</param>
-        /// <param name="key">Key</param>
-        string Get(string block, string key);
 
         /// <summary>
         /// Get value by block-key for any culture

@@ -2,15 +2,10 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
-        <Title>Abstraction to localize your app from json files</Title>
-        <Copyright>Copyright © 2023 Sergey Nazarov</Copyright>
-        <PackageProjectUrl>https://github.com/InsightAppDev/Insight.Localizer</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/InsightAppDev/Insight.Localizer</RepositoryUrl>
-        <RepositoryType>Github</RepositoryType>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>

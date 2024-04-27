@@ -7,22 +7,32 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
-        <PackageReference Include="xunit" Version="2.4.0" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
-        <PackageReference Include="coverlet.collector" Version="1.0.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+        <PackageReference Include="xunit" Version="2.7.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.7" />
+        <PackageReference Include="coverlet.collector" Version="6.0.2">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Insight.Localizer.Extensions\Insight.Localizer.Extensions.csproj" />
-      <ProjectReference Include="..\..\src\Insight.Localizer\Insight.Localizer.csproj" />
+        <ProjectReference Include="..\..\src\Insight.Localizer.Extensions\Insight.Localizer.Extensions.csproj" />
+        <ProjectReference Include="..\..\src\Insight.Localizer\Insight.Localizer.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Resources\**\*.json" />
-      <Content Include="Resources\**\*.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
+        <None Remove="Resources/**/*.json" />
+        <Content Include="Resources/**/*.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="EmbeddedResources/**/*.json" />
+        <EmbeddedResource Include="EmbeddedResources/**/*.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </EmbeddedResource>
     </ItemGroup>
 
 </Project>

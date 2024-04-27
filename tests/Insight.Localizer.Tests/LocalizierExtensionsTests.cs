@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Insight.Localizer.Extensions;
+using Insight.Localizer.Providers.Files.RawFiles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Xunit;
@@ -52,11 +53,7 @@ public class LocalizierExtensionsTests
     private static IServiceProvider BuildServiceProvider()
     {
         IServiceCollection services = new ServiceCollection();
-        services.Configure<LocalizerOptions>(cfg =>
-        {
-            cfg.Path = "Resources";
-            cfg.ReadNestedFolders = true;
-        });
+
         services.AddLocalizer();
 
         return services.BuildServiceProvider();
