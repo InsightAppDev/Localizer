@@ -1,0 +1,22 @@
+<Project>
+    <PropertyGroup>
+        <MicrosoftVersion>8.0.0</MicrosoftVersion>
+        <LanguageVersion>12</LanguageVersion>
+        <PackageFrameworkVersions>netstandard2.1</PackageFrameworkVersions>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+    <ItemGroup Label="Microsoft">
+        <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="$(MicrosoftVersion)" />
+        <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="$(MicrosoftVersion)" />
+        <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+        <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(MicrosoftVersion)" />
+    </ItemGroup>
+    <ItemGroup Label="Testing">
+        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+        <PackageVersion Include="xunit" Version="2.7.1" />
+        <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.7" />
+        <PackageVersion Include="coverlet.collector" Version="6.0.2"/>
+    </ItemGroup>
+</Project>

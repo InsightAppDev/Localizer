@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 		.github\workflows\publish.yml = .github\workflows\publish.yml
 		.gitignore = .gitignore
 		README.md = README.md
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Insight.Localizer.Extensions", "src\Insight.Localizer.Extensions\Insight.Localizer.Extensions.csproj", "{91FBA765-5291-4A11-9A55-7E4B932E3F7A}"
