@@ -1,0 +1,41 @@
+using System.Collections.Generic;
+
+namespace Lclzr
+{
+    public interface ILocalizer
+    {
+        /// <summary>
+        /// Curent culture of the localizer.
+        /// </summary>
+        public ILocalizerCulture? CurrentCulture { get; set; }
+
+        /// <summary>
+        /// Available block names
+        /// </summary>
+        IReadOnlyCollection<string> AvailableBlockNames { get; }
+
+        /// <summary>
+        /// Get value by block-key and injected culture
+        /// </summary>
+        /// <param name="block">Block name</param>
+        /// <param name="key">Key</param>
+        string Get(string block, string key);
+
+        /// <summary>
+        /// Get value by block-key for any culture
+        /// </summary>
+        /// <param name="block">Block name</param>
+        /// <param name="key">Key</param>
+        /// <returns></returns>
+        string GetAny(string block, string key);
+
+        /// <summary>
+        /// Get value by culture-block-key for any culture
+        /// </summary>
+        /// <param name="culture">Culture</param>
+        /// <param name="block">Block name</param>
+        /// <param name="key">Key</param>
+        /// <returns></returns>
+        string GetByCulture(string culture, string block, string key);
+    }
+}
