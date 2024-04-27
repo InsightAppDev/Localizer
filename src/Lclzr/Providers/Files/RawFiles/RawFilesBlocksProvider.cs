@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Lclzr.Providers.Files.RawFiles
 {
-    public class RawFilesBlocksProvider : BlocksProvider, IInitializable
+    internal class RawFilesBlocksProvider : BlocksProvider, IInitializable
     {
         private static readonly Regex OneFilePerCultureNameRegex =
             new Regex(@"^lclzr.([A-z0-9_-]{1,})\.([a-z\-]{2,})\.json$", RegexOptions.Compiled);

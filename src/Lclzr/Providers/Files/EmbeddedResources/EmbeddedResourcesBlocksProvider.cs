@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Lclzr.Providers.Files.EmbeddedResources
 {
-    public class EmbeddedResourcesBlocksProvider : BlocksProvider, IInitializable
+    internal class EmbeddedResourcesBlocksProvider : BlocksProvider, IInitializable
     {
         private static readonly Regex OneFilePerCultureNameRegex =
             new Regex(@"lclzr.([A-z0-9_-]{1,})\.([a-z\-]{2,})\.json$", RegexOptions.Compiled);

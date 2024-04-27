@@ -4,13 +4,11 @@ using Lclzr.Registries;
 
 namespace Lclzr
 {
-    public class Localizer : ILocalizer
+    internal class Localizer : ILocalizer
     {
         private readonly ILocalizerRegistry _registry;
 
         public ILocalizerCulture? CurrentCulture { get; set; }
-
-        public IReadOnlyDictionary<string, Block> Blocks => _registry.Blocks;
 
         public IReadOnlyCollection<string> AvailableBlockNames => _registry.AvailableBlockNames;
 

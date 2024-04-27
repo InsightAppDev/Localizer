@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using Lclzr.Extensions;
+using Lclzr.Tests.Infratructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Xunit;
@@ -29,12 +32,13 @@ public class LocalizierExtensionsTests
     }
 
     [Fact]
-    public void AddLocalizer_registers_localizer_initializer()
+    public void AddLocalizer_registers_registry_initializer()
     {
         var sp = BuildServiceProvider();
-        var localizer = sp.GetRequiredService<ILocalizer<LocalizierExtensionsTests>>();
+        var initializer = sp.GetRequiredService<IHostedService>();
 
-        Assert.NotNull(localizer);
+        Assert.NotNull(initializer);
+        Assert.Equal(typeof(RegistryInitializerBackgroundService), initializer.GetType());
     }
 
     [Fact]
@@ -45,7 +49,7 @@ public class LocalizierExtensionsTests
 
         var initializer = sp.GetRequiredService<IHostedService>();
         await initializer.StartAsync(CancellationToken.None);
-        
+
         Assert.NotNull(localizer.AvailableBlockNames);
     }
 
@@ -53,7 +57,9 @@ public class LocalizierExtensionsTests
     {
         IServiceCollection services = new ServiceCollection();
 
-        services.AddLocalizer();
+        var block = new Block("test");
+        block.Add("ru-ru", new Dictionary<string, string>() );
+        services.AddLocalizer(builder => builder.WithProvider(new TestBlocksProvider(block)));
 
         return services.BuildServiceProvider();
     }

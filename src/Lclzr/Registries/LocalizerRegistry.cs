@@ -9,22 +9,20 @@ using Lclzr.Providers;
 
 namespace Lclzr.Registries
 {
-    public class LocalizerRegistry : ILocalizerRegistry, IInitializable
+    internal class LocalizerRegistry : ILocalizerRegistry, IInitializable
     {
         private Dictionary<string, Block> _blocks = new Dictionary<string, Block>();
-        
+
         private IBlocksProvider[]? _blockProviders;
-        
+
         private bool _initialized;
 
         public IReadOnlyCollection<string> AvailableBlockNames => new Lazy<IReadOnlyCollection<string>>(
-                () => Blocks
+                () => _blocks
                     .Select(x => x.Key)
                     .ToList()
                     .AsReadOnly())
             .Value;
-
-        public IReadOnlyDictionary<string, Block> Blocks => new ReadOnlyDictionary<string, Block>(_blocks);
 
         public LocalizerRegistry(IEnumerable<IBlocksProvider> blocksProviders) : this(blocksProviders.ToArray())
         {
@@ -82,7 +80,7 @@ namespace Lclzr.Registries
         }
 
         private Block this[string name] =>
-            Blocks.TryGetValue(name, out var value)
+            _blocks.TryGetValue(name, out var value)
                 ? value
                 : throw new MissingBlockException($"Block `{name}` missing");
     }

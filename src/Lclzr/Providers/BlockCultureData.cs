@@ -2,7 +2,7 @@ using System;
 
 namespace Lclzr.Providers
 {
-    public readonly struct BlockCultureData : IEquatable<BlockCultureData>
+    internal readonly struct BlockCultureData : IEquatable<BlockCultureData>
     {
         public BlockCultureData(string block, string culture, string content)
         {

@@ -10,7 +10,10 @@ namespace Lclzr
         public string Name { get; }
 
         public IReadOnlyCollection<string> AvailableCultures =>
-            new Lazy<IReadOnlyCollection<string>>(() => _localizations.Keys.ToList().AsReadOnly()).Value;
+            new Lazy<IReadOnlyCollection<string>>(() => _localizations.Keys
+                    .ToList()
+                    .AsReadOnly())
+                .Value;
 
         private readonly IDictionary<string, IDictionary<string, string>> _localizations;
 

@@ -2,7 +2,7 @@ using Lclzr.Registries;
 
 namespace Lclzr
 {
-    public class Localizer<T> : Localizer, ILocalizer<T> where T : class
+    internal class Localizer<T> : Localizer, ILocalizer<T> where T : class
     {
         public Localizer(ILocalizerRegistry registry) : base(registry)
         {

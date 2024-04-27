@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace Lclzr.Providers.Files
+namespace Lclzr.Providers
 {
-    public abstract class BlocksProvider : IBlocksProvider
+    internal abstract class BlocksProvider : IBlocksProvider
     {
         protected readonly IDictionary<string, Block> Blocks = new Dictionary<string, Block>();
 

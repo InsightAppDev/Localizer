@@ -5,11 +5,6 @@ namespace Lclzr.Registries
     public interface ILocalizerRegistry
     {
         /// <summary>
-        /// Loaded blocks
-        /// </summary>
-        IReadOnlyDictionary<string, Block> Blocks { get; }
-
-        /// <summary>
         /// Available block names
         /// </summary>
         IReadOnlyCollection<string> AvailableBlockNames { get; }
