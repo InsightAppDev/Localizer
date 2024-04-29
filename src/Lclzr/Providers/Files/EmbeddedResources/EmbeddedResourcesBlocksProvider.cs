@@ -41,7 +41,6 @@ namespace Lclzr.Providers.Files.EmbeddedResources
                         using (var resourceStream = assembly.GetManifestResourceStream(resourceName))
                         {
                             if (resourceStream == null)
-                                // TODO: Log
                                 continue;
 
                             using (var streamReader = new StreamReader(resourceStream, encoding))
@@ -56,8 +55,6 @@ namespace Lclzr.Providers.Files.EmbeddedResources
                                     var info = new BlockCultureData(block, culture, content);
 
                                     await InitializeBlockCulture(in info);
-                                    // TODO: Write log
-
                                     continue;
                                 }
 
@@ -74,11 +71,7 @@ namespace Lclzr.Providers.Files.EmbeddedResources
                                         var info = new BlockCultureData(block, culture, blockJToken.ToString());
                                         await InitializeBlockCulture(in info);
                                     }
-
-                                    continue;
                                 }
-                                
-                                // TODO: Log
                             }
                         }
                     }
@@ -88,11 +81,6 @@ namespace Lclzr.Providers.Files.EmbeddedResources
                     }
                 }
             }
-        }
-
-        public override IReadOnlyCollection<Block> GetBlocks()
-        {
-            return Blocks.Values.ToArray();
         }
     }
 }

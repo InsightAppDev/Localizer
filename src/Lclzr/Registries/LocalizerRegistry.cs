@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Lclzr.Exceptions;
@@ -54,7 +53,6 @@ namespace Lclzr.Registries
                 {
                     if (_blocks.ContainsKey(block.Name))
                     {
-                        // TODO: Write log
                         throw new InvalidOperationException(
                             $"Error occured while adding blocks from {blocksProvider.GetType().Name}. Block already added.");
                     }

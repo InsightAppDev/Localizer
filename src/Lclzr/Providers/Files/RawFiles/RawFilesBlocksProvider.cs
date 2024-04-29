@@ -38,7 +38,6 @@ namespace Lclzr.Providers.Files.RawFiles
                 try
                 {
                     var filename = Path.GetFileName(file);
-                    // TODO: Lazy or different way not to load
                     string? content = null;
                     var oneFilePerMultipleLanguagesMatch = OneFilePerMultipleCulturesNameRegex.Match(filename);
                     if (oneFilePerMultipleLanguagesMatch.Success)
@@ -64,21 +63,13 @@ namespace Lclzr.Providers.Files.RawFiles
                         var info = new BlockCultureData(block, culture, content);
 
                         await InitializeBlockCulture(in info);
-                        continue;
                     }
-
-                    // TODO: Log block not added
                 }
                 catch (Exception ex)
                 {
                     throw new LocalizerException($"Failed to process file: {file}", ex);
                 }
             }
-        }
-
-        public override IReadOnlyCollection<Block> GetBlocks()
-        {
-            return Blocks.Values.ToArray();
         }
     }
 }

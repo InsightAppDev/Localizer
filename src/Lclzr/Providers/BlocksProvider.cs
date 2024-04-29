@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
@@ -9,7 +10,10 @@ namespace Lclzr.Providers
     {
         protected readonly IDictionary<string, Block> Blocks = new Dictionary<string, Block>();
 
-        public abstract IReadOnlyCollection<Block> GetBlocks();
+        public virtual IReadOnlyCollection<Block> GetBlocks()
+        {
+            return Blocks.Values.ToArray();
+        }
 
         protected Task InitializeBlockCulture(in BlockCultureData cultureData)
         {
