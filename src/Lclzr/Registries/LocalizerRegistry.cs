@@ -32,16 +32,13 @@ namespace Lclzr.Registries
             _blockProviders = blocksProviders;
         }
 
-        // TODO: Think about thread safety
         public async Task Initialize()
         {
             if (_initialized)
                 throw new InvalidOperationException($"{nameof(LocalizerRegistry)} already initialized");
 
             if (_blockProviders == null)
-            {
                 throw new InvalidOperationException("There is no block providers");
-            }
 
             foreach (var blocksProvider in _blockProviders)
             {
@@ -61,8 +58,6 @@ namespace Lclzr.Registries
                 }
             }
 
-            // Clear providers to collect them
-            // TODO: Think how to refactor this
             _blockProviders = null;
             _initialized = true;
         }
