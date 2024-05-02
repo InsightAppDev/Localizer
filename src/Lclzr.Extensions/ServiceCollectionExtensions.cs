@@ -33,7 +33,7 @@ namespace Lclzr.Extensions
             var descriptor = new ServiceDescriptor(typeof(ILocalizer), factory, ServiceLifetime.Scoped);
             services.TryAdd(descriptor);
 
-            services.AddTransient(typeof(ILocalizer<>), typeof(Localizer<>));
+            services.AddScoped(typeof(ILocalizer<>), typeof(Localizer<>));
             services.AddHostedService<RegistryInitializerBackgroundService>();
 
             return services;
