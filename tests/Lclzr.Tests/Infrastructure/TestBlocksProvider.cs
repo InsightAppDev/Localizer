@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Lclzr.Providers;
 
-namespace Lclzr.Tests.Infratructure;
+namespace Lclzr.Tests.Infrastructure;
 
 internal sealed class TestBlocksProvider : IBlocksProvider
 {

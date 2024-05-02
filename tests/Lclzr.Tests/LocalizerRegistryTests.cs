@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Lclzr.Exceptions;
 using Lclzr.Registries;
-using Lclzr.Tests.Infratructure;
+using Lclzr.Tests.Infrastructure;
 using Xunit;
 
 namespace Lclzr.Tests;

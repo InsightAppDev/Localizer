@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using Lclzr.Providers.Files.RawFiles;
-using Lclzr.Tests.Infratructure;
+using Lclzr.Tests.Infrastructure;
 using Xunit;
 
 namespace Lclzr.Tests;

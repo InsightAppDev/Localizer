@@ -1,6 +1,6 @@
 using Lclzr.Providers.Files.RawFiles;
 
-namespace Lclzr.Tests.Infratructure;
+namespace Lclzr.Tests.Infrastructure;
 
 public sealed class LocalizerWithRawFilesProviderSut
 {

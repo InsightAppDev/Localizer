@@ -4,7 +4,7 @@ using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using Lclzr.Extensions;
-using Lclzr.Tests.Infratructure;
+using Lclzr.Tests.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Xunit;

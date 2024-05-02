@@ -51,7 +51,7 @@ namespace Lclzr.Registries
                     if (_blocks.ContainsKey(block.Name))
                     {
                         throw new InvalidOperationException(
-                            $"Error occured while adding blocks from {blocksProvider.GetType().Name}. Block already added.");
+                            $"Error occured while adding blocks from {blocksProvider.GetType().Name}. Block already exists.");
                     }
 
                     _blocks.Add(block.Name, block);
