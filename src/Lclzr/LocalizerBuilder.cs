@@ -54,25 +54,11 @@ namespace Lclzr
             return new Localizer(registry);
         }
 
-        public ILocalizer<T> Build<T>() where T : class
-        {
-            var registry = _registry ?? BuildAndInitializeRegistry().GetAwaiter().GetResult();
-
-            return new Localizer<T>(registry);
-        }
-
         public async Task<ILocalizer> BuildAsync()
         {
             var registry = _registry ?? await BuildAndInitializeRegistry();
 
             return new Localizer(registry);
-        }
-
-        public async Task<ILocalizer<T>> BuildAsync<T>() where T : class
-        {
-            var registry = _registry ?? await BuildAndInitializeRegistry();
-
-            return new Localizer<T>(registry);
         }
 
         internal LocalizerBuilder WithRegistry<TRegistry>(TRegistry registry) where TRegistry : class, ILocalizerRegistry

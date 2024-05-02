@@ -1,16 +1,23 @@
-using Lclzr.Registries;
+using System;
+using System.Collections.Generic;
 
 namespace Lclzr
 {
-    internal class Localizer<T> : Localizer, ILocalizer<T> where T : class
+    internal class Localizer<T> : ILocalizer<T> where T : class
     {
-        public Localizer(ILocalizerRegistry registry) : base(registry)
+        private readonly ILocalizer _localizer;
+
+        public ILocalizerCulture CurrentCulture
         {
+            get => _localizer.CurrentCulture;
+            set => _localizer.CurrentCulture = value;
         }
 
-        public Localizer(ILocalizerRegistry registry, ILocalizerCulture localizerCulture) : base(registry,
-            localizerCulture)
+        public IReadOnlyCollection<string> AvailableBlockNames => _localizer.AvailableBlockNames;
+
+        public Localizer(ILocalizer localizer)
         {
+            _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
         }
 
         public string Get(string key)
@@ -29,6 +36,21 @@ namespace Lclzr
         {
             var block = GetBlockName();
             return GetByCulture(culture, block, key);
+        }
+
+        public string Get(string block, string key)
+        {
+            return _localizer.Get(block, key);
+        }
+
+        public string GetAny(string block, string key)
+        {
+            return _localizer.GetAny(block, key);
+        }
+
+        public string GetByCulture(string culture, string block, string key)
+        {
+            return _localizer.GetByCulture(culture, block, key);
         }
 
         private static string GetBlockName()

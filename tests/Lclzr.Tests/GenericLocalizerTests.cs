@@ -20,7 +20,8 @@ public sealed class GenericLocalizerTests
         var registry = new LocalizerRegistry(provider);
         registry.Initialize().GetAwaiter().GetResult();
 
-        _localizer = new Localizer<GenericLocalizerTests>(registry);
+        var lclzr = new Localizer(registry);
+        _localizer = new Localizer<GenericLocalizerTests>(lclzr);
         _localizer.CurrentCulture = new LocalizerCulture("ru-ru");
     }
 
