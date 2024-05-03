@@ -10,9 +10,9 @@ namespace Lclzr.Providers
     {
         protected readonly IDictionary<string, Block> Blocks = new Dictionary<string, Block>();
 
-        public virtual IReadOnlyCollection<Block> GetBlocks()
+        public virtual Task<IReadOnlyCollection<Block>> GetBlocks()
         {
-            return Blocks.Values.ToArray();
+            return Task.FromResult<IReadOnlyCollection<Block>>(Blocks.Values.ToArray());
         }
 
         protected Task InitializeBlockCulture(in BlockCultureData cultureData)

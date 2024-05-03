@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Lclzr.Providers;
 
 namespace Lclzr.Tests.Infrastructure;
@@ -11,9 +12,9 @@ internal sealed class TestBlocksProvider : IBlocksProvider
     {
         _blocks = blocks;
     }
-    
-    public IReadOnlyCollection<Block> GetBlocks()
+
+    public Task<IReadOnlyCollection<Block>> GetBlocks()
     {
-        return _blocks;
+        return Task.FromResult<IReadOnlyCollection<Block>>(_blocks);
     }
 }

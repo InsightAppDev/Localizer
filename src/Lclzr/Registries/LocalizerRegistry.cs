@@ -42,10 +42,7 @@ namespace Lclzr.Registries
 
             foreach (var blocksProvider in _blockProviders)
             {
-                if (blocksProvider is IInitializable initializable)
-                    await initializable.Initialize();
-
-                var currentProviderBlocks = blocksProvider.GetBlocks();
+                var currentProviderBlocks = await blocksProvider.GetBlocks();
                 foreach (var block in currentProviderBlocks)
                 {
                     if (_blocks.ContainsKey(block.Name))

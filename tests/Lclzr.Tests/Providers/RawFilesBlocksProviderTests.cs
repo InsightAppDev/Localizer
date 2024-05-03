@@ -16,9 +16,8 @@ public class RawFilesBlocksProviderTests
         };
 
         var provider = new RawFilesBlocksProvider(fileBlocksProviderOptions);
-        await provider.Initialize();
         
-        var blocks = provider.GetBlocks();
+        var blocks = await provider.GetBlocks();
         Assert.Equal(5, blocks.Count);
     }
 }

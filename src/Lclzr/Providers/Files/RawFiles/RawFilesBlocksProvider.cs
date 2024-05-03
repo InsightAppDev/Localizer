@@ -1,16 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Lclzr.Exceptions;
-using Lclzr.Infrastructure;
 using Newtonsoft.Json.Linq;
 
 namespace Lclzr.Providers.Files.RawFiles
 {
-    internal class RawFilesBlocksProvider : BlocksProvider, IInitializable
+    internal class RawFilesBlocksProvider : BlocksProvider
     {
         private static readonly Regex OneFilePerCultureNameRegex =
             new Regex(@"^lclzr.([A-z0-9_-]{1,})\.([a-z\-]{2,})\.json$", RegexOptions.Compiled);
@@ -20,12 +18,25 @@ namespace Lclzr.Providers.Files.RawFiles
 
         private readonly RawFilesBlocksProviderOptions _options;
 
+        private bool _initialied;
+        
         public RawFilesBlocksProvider(RawFilesBlocksProviderOptions options)
         {
             _options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
-        public async Task Initialize()
+        public override async Task<IReadOnlyCollection<Block>> GetBlocks()
+        {
+            if (!_initialied)
+            {
+                await Initialize();
+                _initialied = true;
+            }
+            
+            return await base.GetBlocks();
+        }
+
+        private async Task Initialize()
         {
             var searchOption = _options.ReadNestedFolders
                 ? SearchOption.AllDirectories

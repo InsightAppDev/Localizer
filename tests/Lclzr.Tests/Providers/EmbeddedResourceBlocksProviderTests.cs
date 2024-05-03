@@ -19,9 +19,7 @@ public class EmbeddedResourceBlocksProviderTests
 
         var provider = new EmbeddedResourcesBlocksProvider(fileBlocksProviderOptions);
 
-        await provider.Initialize();
-
-        var blocks = provider.GetBlocks();
+        var blocks = await provider.GetBlocks();
         Assert.Single(blocks);
         var block = blocks.Single();
         
@@ -40,9 +38,7 @@ public class EmbeddedResourceBlocksProviderTests
 
         var provider = new EmbeddedResourcesBlocksProvider(fileBlocksProviderOptions);
 
-        await provider.Initialize();
-
-        var blocks = provider.GetBlocks();
+        var blocks = await provider.GetBlocks();
         Assert.Single(blocks);
         var block = blocks.Single();
         

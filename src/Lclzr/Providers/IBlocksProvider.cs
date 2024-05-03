@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Lclzr.Providers
 {
     public interface IBlocksProvider
     {
-        IReadOnlyCollection<Block> GetBlocks();
+        Task<IReadOnlyCollection<Block>> GetBlocks();
     }
 }

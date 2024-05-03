@@ -7,12 +7,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Lclzr.Exceptions;
-using Lclzr.Infrastructure;
 using Newtonsoft.Json.Linq;
 
 namespace Lclzr.Providers.Files.EmbeddedResources
 {
-    internal class EmbeddedResourcesBlocksProvider : BlocksProvider, IInitializable
+    internal class EmbeddedResourcesBlocksProvider : BlocksProvider
     {
         private static readonly Regex OneFilePerCultureNameRegex =
             new Regex(@"lclzr.([A-z0-9_-]{1,})\.([a-z\-]{2,})\.json$", RegexOptions.Compiled);
@@ -21,13 +20,26 @@ namespace Lclzr.Providers.Files.EmbeddedResources
             new Regex(@"lclzr.([A-z0-9_-]{1,})\.json$", RegexOptions.Compiled);
 
         private readonly EmbeddedResourcesBlocksProviderOptions _options;
+        
+        private bool _initialized;
 
         public EmbeddedResourcesBlocksProvider(EmbeddedResourcesBlocksProviderOptions options)
         {
             _options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
-        public async Task Initialize()
+        public override async Task<IReadOnlyCollection<Block>> GetBlocks()
+        {
+            if (!_initialized)
+            {
+                await Initialize();
+                _initialized = true;
+            }
+            
+            return await base.GetBlocks();
+        }
+
+        private async Task Initialize()
         {
             var encoding = Encoding.GetEncoding(_options.ResourceEncodingWebName);
             foreach (var assembly in _options.Assemblies.Select(Assembly.Load))
