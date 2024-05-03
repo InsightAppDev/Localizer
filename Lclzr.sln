@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lclzr", "src\Lclzr\Lclzr.csproj", "{192A4E10-2498-409B-A537-F27150C31C1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lclzr.Tests", "tests\Lclzr.Tests\Lclzr.Tests.csproj", "{C8EDC5BA-AA36-44C6-A4D5-E45695EF5867}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{7C43D58B-6E27-40AC-B59E-D9FE1AB66DB3}"
+	ProjectSection(SolutionItems) = preProject
+		publish-nuget.sh = publish-nuget.sh
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+		.github\workflows\publish.yml = .github\workflows\publish.yml
+		.gitignore = .gitignore
+		README.md = README.md
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lclzr.Extensions", "src\Lclzr.Extensions\Lclzr.Extensions.csproj", "{91FBA765-5291-4A11-9A55-7E4B932E3F7A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{192A4E10-2498-409B-A537-F27150C31C1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{192A4E10-2498-409B-A537-F27150C31C1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{192A4E10-2498-409B-A537-F27150C31C1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{192A4E10-2498-409B-A537-F27150C31C1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8EDC5BA-AA36-44C6-A4D5-E45695EF5867}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8EDC5BA-AA36-44C6-A4D5-E45695EF5867}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8EDC5BA-AA36-44C6-A4D5-E45695EF5867}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8EDC5BA-AA36-44C6-A4D5-E45695EF5867}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91FBA765-5291-4A11-9A55-7E4B932E3F7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91FBA765-5291-4A11-9A55-7E4B932E3F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91FBA765-5291-4A11-9A55-7E4B932E3F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91FBA765-5291-4A11-9A55-7E4B932E3F7A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
